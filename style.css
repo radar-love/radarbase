@@ -1,159 +1,130 @@
-/* Reset and base layout */
-* {
+/* style.css */
+
+body, html {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-}
-
-html, body {
-  height: 100%;
   width: 100%;
+  height: 100%;
   font-family: sans-serif;
-  background: #000;
+  background: #f6de4d;
   overflow: hidden;
 }
 
-/* Container: Split and tilted layout */
 .container {
   display: flex;
-  height: 100%;
   width: 100%;
-  transform: skewX(-5deg);
-  transform-origin: center;
-  transition: all 0.5s ease;
+  height: 100vh;
+  transform: skewY(-5deg);
+  transform-origin: top left;
+  transition: all 0.8s ease-in-out;
 }
 
 .panel {
   flex: 1;
+  transform: skewY(5deg);
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   position: relative;
+  transition: all 0.8s ease-in-out;
   overflow: hidden;
-  transition: flex 0.6s ease;
-  transform: skewX(5deg);
-  cursor: pointer;
 }
 
 .left {
-  background-color: rgb(246, 222, 77); /* golden yellow */
+  background: #000;
 }
 
 .right {
-  background-color: #1a1a1a; /* dark gray */
+  background: #fff;
 }
 
-/* Responsive portrait mode (vertical split) */
-@media (orientation: portrait) {
-  .container {
-    flex-direction: column;
-    transform: skewY(-5deg);
-  }
-
-  .panel {
-    transform: skewY(5deg);
-  }
-}
-
-/* Expand/collapse logic */
 .container.expand-left .left {
-  flex: 1;
+  flex: 3;
 }
+
 .container.expand-left .right {
-  flex: 0;
-}
-.container.expand-right .left {
-  flex: 0;
-}
-.container.expand-right .right {
   flex: 1;
 }
 
-/* MAIN CIRCLE */
+.container.expand-right .left {
+  flex: 1;
+}
+
+.container.expand-right .right {
+  flex: 3;
+}
+
 .main-circle {
-  position: relative;
   width: 100px;
   height: 100px;
+  background: transparent;
   border-radius: 50%;
-  z-index: 2;
+  position: relative;
   transition: all 0.6s ease;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transform: translateZ(0); /* prevent artifacts */
 }
 
-/* Main circle color settings */
-.left .main-circle {
-  background-color: #1a1a1a;
-}
-.right .main-circle {
-  background-color: rgb(246, 222, 77);
-}
-
-/* Expand on selection */
 .container.expand-left .left .main-circle,
 .container.expand-right .right .main-circle {
   width: 200px;
   height: 200px;
 }
 
-/* SPOKES */
 .spoke {
+  width: 2px;
+  height: 80px;
+  background: #fff;
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 2px;
-  height: 0;
-  background-color: currentColor;
-  transform-origin: center top;
-  transition: height 0.6s ease;
+  transform-origin: top center;
+  transition: all 0.5s ease;
+  opacity: 0;
 }
 
-/* Directions */
-.spoke-1 { transform: rotate(0deg); }
-.spoke-2 { transform: rotate(90deg); }
-.spoke-3 { transform: rotate(45deg); }
-.spoke-4 { transform: rotate(-45deg); }
-
-/* Extend lines on expand */
-.container.expand-left .left .spoke,
-.container.expand-right .right .spoke {
-  height: 80px;
-}
-
-/* NODES (endpoint circles) */
 .node {
-  position: absolute;
   width: 20px;
   height: 20px;
+  background: #ccc;
   border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.3);
-  transform: translate(-50%, -100%) scale(0); /* place at end of spoke */
-  transition: background-color 0.3s, transform 0.4s ease;
+  position: absolute;
+  transition: background 0.3s, transform 0.3s;
+  opacity: 0;
 }
 
-/* Show on expand */
+/* Positioning spokes and nodes */
+.spoke-1 { transform: rotate(0deg) translate(-1px, -100px); }
+.spoke-2 { transform: rotate(90deg) translate(-1px, -100px); }
+.spoke-3 { transform: rotate(180deg) translate(-1px, -100px); }
+.spoke-4 { transform: rotate(270deg) translate(-1px, -100px); }
+
+.container.expand-left .left .spoke,
+.container.expand-right .right .spoke {
+  opacity: 1;
+}
+
 .container.expand-left .left .node,
 .container.expand-right .right .node {
-  transform: translate(-50%, -100%) scale(1);
+  opacity: 1;
 }
 
-/* Hover effect */
+/* Node positions */
+[data-node="1"] { top: calc(50% - 90px); left: 50%; transform: translate(-50%, -50%); }
+[data-node="2"] { top: 50%; left: calc(50% + 90px); transform: translate(-50%, -50%); }
+[data-node="3"] { top: calc(50% + 90px); left: 50%; transform: translate(-50%, -50%); }
+[data-node="4"] { top: 50%; left: calc(50% - 90px); transform: translate(-50%, -50%); }
+
+[data-node="5"] { top: calc(50% - 90px); left: 50%; transform: translate(-50%, -50%); }
+[data-node="6"] { top: 50%; left: calc(50% + 90px); transform: translate(-50%, -50%); }
+[data-node="7"] { top: calc(50% + 90px); left: 50%; transform: translate(-50%, -50%); }
+[data-node="8"] { top: 50%; left: calc(50% - 90px); transform: translate(-50%, -50%); }
+
 .node:hover {
-  background-color: rgba(0, 0, 0, 0.6);
+  background: #f6de4d;
   cursor: pointer;
 }
 
-/* Fullscreen mode */
 .node.active {
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  border-radius: 0;
-  background-color: inherit;
+  transform: scale(5);
   z-index: 10;
-  transform: none;
-  transition: all 0.6s ease;
+  background: #000;
 }
