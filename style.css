@@ -1,3 +1,4 @@
+/* Reset and base layout */
 * {
   margin: 0;
   padding: 0;
@@ -12,6 +13,7 @@ html, body {
   overflow: hidden;
 }
 
+/* Container: Split and tilted layout */
 .container {
   display: flex;
   height: 100%;
@@ -30,32 +32,18 @@ html, body {
   overflow: hidden;
   transition: flex 0.6s ease;
   transform: skewX(5deg);
+  cursor: pointer;
 }
 
 .left {
-  background-color: rgb(246, 222, 77); /* bright yellow */
+  background-color: rgb(246, 222, 77); /* golden yellow */
 }
 
 .right {
   background-color: #1a1a1a; /* dark gray */
 }
 
-.icon {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  transition: all 0.6s ease;
-}
-
-.left .icon {
-  background-color: #1a1a1a;
-}
-
-.right .icon {
-  background-color: rgb(246, 222, 77);
-}
-
-/* Portrait layout */
+/* Responsive portrait mode (vertical split) */
 @media (orientation: portrait) {
   .container {
     flex-direction: column;
@@ -67,40 +55,105 @@ html, body {
   }
 }
 
-/* Expansion states */
+/* Expand/collapse logic */
 .container.expand-left .left {
   flex: 1;
 }
-
 .container.expand-left .right {
   flex: 0;
 }
-
 .container.expand-right .left {
   flex: 0;
 }
-
 .container.expand-right .right {
   flex: 1;
 }
 
-/* Icon transforms */
-.container.expand-left .left .icon {
+/* MAIN CIRCLE */
+.main-circle {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  z-index: 2;
+  transition: all 0.6s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Left = dark circle on yellow */
+.left .main-circle {
+  background-color: #1a1a1a;
+}
+/* Right = yellow circle on dark */
+.right .main-circle {
+  background-color: rgb(246, 222, 77);
+}
+
+/* EXPANSION: Make main circle bigger */
+.container.expand-left .left .main-circle,
+.container.expand-right .right .main-circle {
   width: 200px;
   height: 200px;
 }
 
-.container.expand-left .right .icon {
-  transform: scale(0);
-  opacity: 0;
+/* SPOKES (lines extending out) */
+.spoke {
+  position: absolute;
+  width: 2px;
+  height: 0;
+  background-color: currentColor;
+  transform-origin: top center;
+  transition: height 0.6s ease, transform 0.6s ease;
 }
 
-.container.expand-right .right .icon {
-  width: 200px;
-  height: 200px;
+/* Angles */
+.spoke-1 { transform: rotate(0deg); }
+.spoke-2 { transform: rotate(90deg); }
+.spoke-3 { transform: rotate(45deg); }
+.spoke-4 { transform: rotate(-45deg); }
+
+/* Show spokes on expand */
+.container.expand-left .left .spoke,
+.container.expand-right .right .spoke {
+  height: 80px;
 }
 
-.container.expand-right .left .icon {
+/* NODES at end of each spoke */
+.node {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.3);
   transform: scale(0);
-  opacity: 0;
+  transition: background-color 0.3s, transform 0.4s ease;
+}
+
+/* Hover effect */
+.node:hover {
+  background-color: rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+}
+
+/* Reveal nodes on expand */
+.container.expand-left .left .node,
+.container.expand-right .right .node {
+  transform: scale(1);
+}
+
+/* FULLSCREEN NODE STATE */
+.node.active {
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0;
+  background-color: inherit;
+  z-index: 10;
+  transform: none;
+  transition: all 0.6s ease;
 }
