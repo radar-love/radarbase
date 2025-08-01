@@ -1,34 +1,29 @@
-const container = document.querySelector(".container");
-const left = document.getElementById("left");
-const right = document.getElementById("right");
+// script.js
+const container = document.querySelector('.container');
+const panels = document.querySelectorAll('.panel');
+const nodes = document.querySelectorAll('.node');
 
-let activePanel = null;
+panels.forEach(panel => {
+  panel.addEventListener('click', () => {
+    const isLeft = panel.classList.contains('left');
+    const isRight = panel.classList.contains('right');
 
-left.addEventListener("click", () => {
-  if (activePanel === "left") {
-    container.classList.remove("expand-left");
-    activePanel = null;
-  } else {
-    container.classList.remove("expand-right");
-    container.classList.add("expand-left");
-    activePanel = "left";
-  }
+    if (isLeft && container.classList.contains('expand-left')) {
+      container.classList.remove('expand-left');
+    } else if (isRight && container.classList.contains('expand-right')) {
+      container.classList.remove('expand-right');
+    } else {
+      container.classList.remove('expand-left', 'expand-right');
+      container.classList.add(isLeft ? 'expand-left' : 'expand-right');
+    }
+  });
 });
 
-right.addEventListener("click", () => {
-  if (activePanel === "right") {
-    container.classList.remove("expand-right");
-    activePanel = null;
-  } else {
-    container.classList.remove("expand-left");
-    container.classList.add("expand-right");
-    activePanel = "right";
-  }
-});
+nodes.forEach(node => {
+  node.addEventListener('click', (e) => {
+    e.stopPropagation();
 
-document.querySelectorAll('.node').forEach(node => {
-  node.addEventListener('click', () => {
-    document.querySelectorAll('.node').forEach(n => n.classList.remove('active'));
+    nodes.forEach(n => n.classList.remove('active'));
     node.classList.add('active');
   });
 });
