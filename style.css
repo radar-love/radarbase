@@ -1,0 +1,105 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: sans-serif;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  transition: all 0.5s ease;
+}
+
+.panel {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s ease;
+  cursor: pointer;
+}
+
+.left {
+  background-color: #111;
+}
+
+.right {
+  background-color: #eee;
+}
+
+.icon {
+  width: 100px;
+  height: 100px;
+  transition: all 0.6s ease;
+  z-index: 1;
+}
+
+/* Responsive stacking */
+@media (orientation: portrait) {
+  .container {
+    flex-direction: column;
+  }
+}
+
+/* Active state */
+.container.expand-left .left {
+  flex: 1;
+}
+.container.expand-left .right {
+  flex: 0;
+}
+.container.expand-right .right {
+  flex: 1;
+}
+.container.expand-right .left {
+  flex: 0;
+}
+
+.container.expand-left .left .icon {
+  opacity: 0;
+}
+.container.expand-left .right .icon {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  top: 1rem;
+  right: 1rem;
+}
+@media (orientation: portrait) {
+  .container.expand-left .right .icon {
+    bottom: 1rem;
+    top: auto;
+    left: 1rem;
+    right: auto;
+  }
+}
+
+.container.expand-right .right .icon {
+  opacity: 0;
+}
+.container.expand-right .left .icon {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  top: 1rem;
+  left: 1rem;
+}
+@media (orientation: portrait) {
+  .container.expand-right .left .icon {
+    bottom: 1rem;
+    top: auto;
+    right: 1rem;
+    left: auto;
+  }
+}
