@@ -1,6 +1,6 @@
+const container = document.querySelector(".container");
 const left = document.getElementById("left");
 const right = document.getElementById("right");
-const container = document.querySelector(".container");
 
 let activePanel = null;
 
