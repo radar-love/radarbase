@@ -25,3 +25,10 @@ right.addEventListener("click", () => {
     activePanel = "right";
   }
 });
+
+document.querySelectorAll('.node').forEach(node => {
+  node.addEventListener('click', () => {
+    document.querySelectorAll('.node').forEach(n => n.classList.remove('active'));
+    node.classList.add('active');
+  });
+});
