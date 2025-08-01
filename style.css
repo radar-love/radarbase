@@ -9,17 +9,14 @@ body, html {
   height: 100%;
   overflow: hidden;
   font-family: sans-serif;
-}
-
-body {
-  background: #000; /* fallback for viewport gaps */
+  background: #000;
 }
 
 .container {
   display: flex;
-  flex-direction: row;
   width: 100%;
   height: 100%;
+  flex-direction: row;
   transition: all 0.5s ease;
 }
 
@@ -29,69 +26,66 @@ body {
   justify-content: center;
   align-items: center;
   position: relative;
-  overflow: hidden;
-  transition: all 0.5s ease;
+  transition: flex 0.5s ease;
   cursor: pointer;
+  overflow: hidden;
 }
 
 .left {
-  background-color: rgb(246, 222, 77); /* bright yellow */
+  background-color: rgb(246, 222, 77);
 }
 
 .right {
-  background-color: #1a1a1a; /* very dark gray */
+  background-color: #1a1a1a;
 }
 
 .icon {
   width: 100px;
   height: 100px;
   transition: all 0.6s ease;
-  z-index: 1;
+  position: relative;
 }
 
-/* Set icon colors using fill/stroke override in context */
-.left .icon svg * {
-  stroke: #1a1a1a; /* dark lines on yellow bg */
+/* SVG fill/stroke by context */
+.left .icon * {
+  stroke: #1a1a1a;
   fill: #1a1a1a;
 }
 
-.right .icon svg * {
-  stroke: rgb(246, 222, 77); /* yellow lines on dark bg */
+.right .icon * {
+  stroke: rgb(246, 222, 77);
   fill: rgb(246, 222, 77);
 }
 
-/* Corner icon resize */
-.container.expand-left .right .icon,
-.container.expand-right .left .icon {
-  width: 60px;
-  height: 60px;
-}
-
-
-/* Responsive stacking */
+/* Orientation-aware layout */
 @media (orientation: portrait) {
   .container {
     flex-direction: column;
   }
 }
 
-/* Active state */
+/* Expansion classes */
 .container.expand-left .left {
   flex: 1;
 }
+
 .container.expand-left .right {
   flex: 0;
 }
+
 .container.expand-right .right {
   flex: 1;
 }
+
 .container.expand-right .left {
   flex: 0;
 }
 
+/* Icon behavior */
 .container.expand-left .left .icon {
   opacity: 0;
 }
+
 .container.expand-left .right .icon {
   position: absolute;
   width: 60px;
@@ -99,10 +93,11 @@ body {
   top: 1rem;
   right: 1rem;
 }
+
 @media (orientation: portrait) {
   .container.expand-left .right .icon {
-    bottom: 1rem;
     top: auto;
+    bottom: 1rem;
     left: 1rem;
     right: auto;
   }
@@ -111,6 +106,7 @@ body {
 .container.expand-right .right .icon {
   opacity: 0;
 }
+
 .container.expand-right .left .icon {
   position: absolute;
   width: 60px;
@@ -118,10 +114,11 @@ body {
   top: 1rem;
   left: 1rem;
 }
+
 @media (orientation: portrait) {
   .container.expand-right .left .icon {
-    bottom: 1rem;
     top: auto;
+    bottom: 1rem;
     right: 1rem;
     left: auto;
   }
