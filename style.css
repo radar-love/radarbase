@@ -4,19 +4,20 @@
   box-sizing: border-box;
 }
 
-body, html {
-  width: 100%;
+html, body {
   height: 100%;
-  overflow: hidden;
+  width: 100%;
   font-family: sans-serif;
   background: #000;
+  overflow: hidden;
 }
 
 .container {
   display: flex;
-  width: 100%;
   height: 100%;
-  flex-direction: row;
+  width: 100%;
+  transform: skewX(-5deg);
+  transform-origin: center;
   transition: all 0.5s ease;
 }
 
@@ -26,45 +27,47 @@ body, html {
   justify-content: center;
   align-items: center;
   position: relative;
-  transition: flex 0.5s ease;
-  cursor: pointer;
   overflow: hidden;
+  transition: flex 0.6s ease;
+  transform: skewX(5deg);
 }
 
 .left {
-  background-color: rgb(246, 222, 77);
+  background-color: rgb(246, 222, 77); /* bright yellow */
 }
 
 .right {
-  background-color: #1a1a1a;
+  background-color: #1a1a1a; /* dark gray */
 }
 
 .icon {
   width: 100px;
   height: 100px;
+  border-radius: 50%;
   transition: all 0.6s ease;
-  position: relative;
 }
 
-/* SVG fill/stroke by context */
-.left .icon * {
-  stroke: #1a1a1a;
-  fill: #1a1a1a;
+.left .icon {
+  background-color: #1a1a1a;
 }
 
-.right .icon * {
-  stroke: rgb(246, 222, 77);
-  fill: rgb(246, 222, 77);
+.right .icon {
+  background-color: rgb(246, 222, 77);
 }
 
-/* Orientation-aware layout */
+/* Portrait layout */
 @media (orientation: portrait) {
   .container {
     flex-direction: column;
+    transform: skewY(-5deg);
+  }
+
+  .panel {
+    transform: skewY(5deg);
   }
 }
 
-/* Expansion classes */
+/* Expansion states */
 .container.expand-left .left {
   flex: 1;
 }
@@ -73,53 +76,31 @@ body, html {
   flex: 0;
 }
 
-.container.expand-right .right {
-  flex: 1;
-}
-
 .container.expand-right .left {
   flex: 0;
 }
 
-/* Icon behavior */
+.container.expand-right .right {
+  flex: 1;
+}
+
+/* Icon transforms */
 .container.expand-left .left .icon {
-  opacity: 0;
+  width: 200px;
+  height: 200px;
 }
 
 .container.expand-left .right .icon {
-  position: absolute;
-  width: 60px;
-  height: 60px;
-  top: 1rem;
-  right: 1rem;
-}
-
-@media (orientation: portrait) {
-  .container.expand-left .right .icon {
-    top: auto;
-    bottom: 1rem;
-    left: 1rem;
-    right: auto;
-  }
-}
-
-.container.expand-right .right .icon {
+  transform: scale(0);
   opacity: 0;
 }
 
-.container.expand-right .left .icon {
-  position: absolute;
-  width: 60px;
-  height: 60px;
-  top: 1rem;
-  left: 1rem;
+.container.expand-right .right .icon {
+  width: 200px;
+  height: 200px;
 }
 
-@media (orientation: portrait) {
-  .container.expand-right .left .icon {
-    top: auto;
-    bottom: 1rem;
-    right: 1rem;
-    left: auto;
-  }
+.container.expand-right .left .icon {
+  transform: scale(0);
+  opacity: 0;
 }
