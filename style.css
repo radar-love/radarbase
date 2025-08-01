@@ -11,6 +11,10 @@ body, html {
   font-family: sans-serif;
 }
 
+body {
+  background: #000; /* fallback for viewport gaps */
+}
+
 .container {
   display: flex;
   flex-direction: row;
@@ -31,11 +35,11 @@ body, html {
 }
 
 .left {
-  background-color: #111;
+  background-color: rgb(246, 222, 77); /* bright yellow */
 }
 
 .right {
-  background-color: #eee;
+  background-color: #1a1a1a; /* very dark gray */
 }
 
 .icon {
@@ -44,6 +48,25 @@ body, html {
   transition: all 0.6s ease;
   z-index: 1;
 }
+
+/* Set icon colors using fill/stroke override in context */
+.left .icon svg * {
+  stroke: #1a1a1a; /* dark lines on yellow bg */
+  fill: #1a1a1a;
+}
+
+.right .icon svg * {
+  stroke: rgb(246, 222, 77); /* yellow lines on dark bg */
+  fill: rgb(246, 222, 77);
+}
+
+/* Corner icon resize */
+.container.expand-left .right .icon,
+.container.expand-right .left .icon {
+  width: 60px;
+  height: 60px;
+}
+
 
 /* Responsive stacking */
 @media (orientation: portrait) {
